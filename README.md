@@ -1,4 +1,4 @@
-# Flagellar-and-Motility-Gene-Analysis-in-Vibrio-cholerae
+# Flagellar and Motility Gene Analysis in Vibrio cholerae
 
 Module load Anaconda3
 Conda config –add channels conda-forge
