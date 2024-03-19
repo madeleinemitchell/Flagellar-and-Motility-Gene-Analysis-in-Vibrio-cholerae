@@ -1,17 +1,19 @@
 # Flagellar and Motility Gene Analysis in Vibrio cholerae
 
-Module load Anaconda3
-Conda config –add channels conda-forge
-Conda config –add channels bioconda 
-Conda config –show channels
-Conda create –n project
-Conda activate project – using env called project
+module load Anaconda3
+conda config –add channels conda-forge
+conda config –add channels bioconda 
+conda config –show channels
+conda create –n project
+conda activate project – using env called project
 
 ## Genome sequence retreival 
 conda create -n fastq-dl -c conda-forge -c bioconda fastq-dl
-Conda activate fastq-dil 
-fastq-dl --accession SRX477044 –provider ENA 
+conda activate fastq-dl 
+fastq-dl --accession ERR025381 –provider ENA 
 
+Repeat with:
+ERR018167 ERR018168 ERR018177 ERR018192 ERR025385 ERR025383 ERR018176 ERR018181 ERR018122 ERR019883 ERR018120 ERR018179 ERR025392 ERR018114 ERR019884 ERR018113 ERR018115 ERR025373 ERR018121 ERR018128 ERR025393 ERR018182 ERR025395 ERR018160 SRR308665 SRR308690 SRR308691 SRR308692 SRR308693 SRR308703 SRR308704 SRR308705 SRR308707 SRR308709 SRR308713 SRR308715 SRR308716 SRR308717 SRR308721 SRR308722 SRR308723 SRR19164894 SRR19164900 SRR19164904 SRR19164906 SRR19164909 SRR19164910 SRR19164911 SRR19164913 SRR19173479 SRR19173482 SRR19173483 SRR19173489 SRR19173493 SRR19173498 SRR19173501 SRR19173510 SRR19164888 SRR19164889 SRR19164890 ERR2760849 DRR394994 DRR394996 DRR395000 DRR395002 DRR395004 ERR1880763 ERR3039950
 
 
 ## Unzip FASTQ files
@@ -43,13 +45,12 @@ done
 
 
 ## Blastn alignment
-assembly_dir="/home/msc20321183/research /fastq/ena_annotation"
+assembly_dir="/home/msc20321183/research/fastq/ena_annotation"
 for assembly_subdir in "$assembly_dir"/*; do 
 if [ -d "$assembly_subdir" ]; then 
 echo "Running blastn on assemblies in $assembly_subdir"
 cd "$assembly_subdir" || exit
 blastn -query contigs.fasta -db ena -out blast_results.txt -outfmt 6
-
 echo "Blastn completed for $assembly_subdir"
 cd "$assembly_dir" || exit 
 fi
@@ -60,7 +61,7 @@ fi
 
 
 
-
+Heatamp python script: 
 
 
 
