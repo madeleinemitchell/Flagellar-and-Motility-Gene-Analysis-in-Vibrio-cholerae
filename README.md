@@ -7,7 +7,7 @@ conda config –show channels
 conda create –n project
 conda activate project – using env called project
 
-## Genome sequence retreival 
+## Genome sequence retrieval 
 conda create -n fastq-dl -c conda-forge -c bioconda fastq-dl
 conda activate fastq-dl 
 fastq-dl --accession ERR025381 –provider ENA 
