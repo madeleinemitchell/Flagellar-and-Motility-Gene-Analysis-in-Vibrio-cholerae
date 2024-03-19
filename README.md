@@ -42,7 +42,7 @@ for dir in ena_annotation/*/; do
 done
 
 
-## Blastn 
+## Blastn alignment
 assembly_dir="/home/msc20321183/research /fastq/ena_annotation"
 for assembly_subdir in "$assembly_dir"/*; do 
 if [ -d "$assembly_subdir" ]; then 
