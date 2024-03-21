@@ -1,5 +1,5 @@
 # Flagellar and Motility Gene Analysis in Vibrio cholerae
-Create environment and ensure channels are availible
+This line creates a Conda environment named "project" where the required packages for the project will be installed, and so channels are availible to ensure that Conda has access to additional repositories where necessary packages can be found.
 
 module load Anaconda3
 conda config –add channels conda-forge
@@ -9,6 +9,7 @@ conda create –n project
 conda activate project – using env called project
 
 ## Genome sequence retrieval 
+This code sets up an isolated environment named "fastq-dl", activates it, and then uses the "fastq-dl" tool within that environment to download FASTQ files from the ENA database. Below are the list of accession numbers used in the analysis.
 
 conda create -n fastq-dl -c conda-forge -c bioconda fastq-dl
 conda activate fastq-dl 
