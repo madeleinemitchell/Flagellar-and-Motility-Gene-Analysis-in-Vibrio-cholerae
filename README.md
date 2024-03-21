@@ -66,7 +66,7 @@ Heatamp python script:
 from Bio import SeqIO
 import os
 
-### Define the list of protein names to check
+Define the list of protein names to check
 proteins_to_check = [
     "FlgP", "FlgN", "FlgM", "FlgA", "FlgB", "FlgC", "FlgD", "FlgF", "FlgG", "FlgH", "FlgJ", "FlgK", 
     "FlgL", "FlaG", "FliD", "FliS", "FliE", "FliF", "FliG", "FliH", "FliI", "FliJ", "FliL", "FliM", 
@@ -74,27 +74,27 @@ proteins_to_check = [
     "PomA", "PomB", "RpoS", "FliA", "RssB", "Ira"
 ]
 
-### Directory containing directories with .ffn files
+Directory containing directories with .ffn files
 base_dir = "/home/msc20321183/research/fastq/ena_annotation/prokka_results"
 
-### Output file to store presence-absence matrix
+Output file to store presence-absence matrix
 output_file = "presence_absence_matrix.txt"
 
-### Open output file for writing
+Open output file for writing
 with open(output_file, "w") as outfile:
     ### Write header
     outfile.write("Directory\t" + "\t".join(proteins_to_check) + "\n")
     
-    ### Loop through each directory
+   Loop through each directory
     for subdir in os.listdir(base_dir):
         subdir_path = os.path.join(base_dir, subdir)
         
-        ### Check if it's a directory ending in "_annotated"
+        Check if it's a directory ending in "_annotated"
         if os.path.isdir(subdir_path) and subdir.endswith("_annotated"):
-            ### Look for .ffn files within the annotated directory
+            Look for .ffn files within the annotated directory
             for filename in os.listdir(subdir_path):
                 if filename.endswith(".ffn"):
-                    ### Open .ffn file and search for proteins
+                    Open .ffn file and search for proteins
                     ffn_file = os.path.join(subdir_path, filename)
                     presence_absence_list = [subdir.rstrip("_annotated")]  # Remove "_annotated" suffix
                     for protein in proteins_to_check:
@@ -105,11 +105,38 @@ with open(output_file, "w") as outfile:
                                 break
                         presence_absence_list.append("1" if protein_found else "0")
                     
-                    ### Write presence-absence list to output file
+                    Write presence-absence list to output file
                     outfile.write("\t".join(presence_absence_list) + "\n")
                     break
 
 print("Presence-absence matrix created and saved to", output_file)
+
+## Produce a heatmap with presence absence results
+
+import os
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+Read presence-absence matrix data into a DataFrame
+data = pd.read_csv("presence_absence_matrix.txt", sep="\t")
+
+ et the 'Directory' column as the index
+data.set_index("Directory", inplace=True)
+
+Plot heatmap with red representing 1 and blue representing 0
+plt.figure(figsize=(10, 8))
+sns.heatmap(data, cmap=["red", "green"], cbar=False, linewidths=0.5, vmin=0, vmax=1)
+plt.title("Presence-Absence Heatmap")
+plt.xlabel("Proteins")
+plt.ylabel("Directories")
+
+Save the heatmap image in the same directory as the script
+output_file = "heatmap.png"
+plt.savefig(output_file)
+
+Show the heatmap
+plt.show()
 
 
 
