@@ -63,6 +63,55 @@ fi
 
 Heatamp python script: 
 
+from Bio import SeqIO
+import os
+
+### Define the list of protein names to check
+proteins_to_check = [
+    "FlgP", "FlgN", "FlgM", "FlgA", "FlgB", "FlgC", "FlgD", "FlgF", "FlgG", "FlgH", "FlgJ", "FlgK", 
+    "FlgL", "FlaG", "FliD", "FliS", "FliE", "FliF", "FliG", "FliH", "FliI", "FliJ", "FliL", "FliM", 
+    "FliN", "FliO", "FliP", "FliQ", "FliR", "FlhB", "FlhA", "FlhF", "FlrD", "FlrA", "MotX", "MotY",
+    "PomA", "PomB", "RpoS", "FliA", "RssB", "Ira"
+]
+
+### Directory containing directories with .ffn files
+base_dir = "/home/msc20321183/research/fastq/ena_annotation/prokka_results"
+
+### Output file to store presence-absence matrix
+output_file = "presence_absence_matrix.txt"
+
+### Open output file for writing
+with open(output_file, "w") as outfile:
+    ### Write header
+    outfile.write("Directory\t" + "\t".join(proteins_to_check) + "\n")
+    
+    ### Loop through each directory
+    for subdir in os.listdir(base_dir):
+        subdir_path = os.path.join(base_dir, subdir)
+        
+        ### Check if it's a directory ending in "_annotated"
+        if os.path.isdir(subdir_path) and subdir.endswith("_annotated"):
+            ### Look for .ffn files within the annotated directory
+            for filename in os.listdir(subdir_path):
+                if filename.endswith(".ffn"):
+                    ### Open .ffn file and search for proteins
+                    ffn_file = os.path.join(subdir_path, filename)
+                    presence_absence_list = [subdir.rstrip("_annotated")]  # Remove "_annotated" suffix
+                    for protein in proteins_to_check:
+                        protein_found = False
+                        for record in SeqIO.parse(ffn_file, "fasta"):
+                            if protein.lower() in record.description.lower():
+                                protein_found = True
+                                break
+                        presence_absence_list.append("1" if protein_found else "0")
+                    
+                    ### Write presence-absence list to output file
+                    outfile.write("\t".join(presence_absence_list) + "\n")
+                    break
+
+print("Presence-absence matrix created and saved to", output_file)
+
+
 
 
 ## Roary pangenome analysis
